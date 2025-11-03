@@ -13,20 +13,8 @@ This approach links real-world optical input to simulated quantum behavior, prod
 ---
 
 ## 🧩 System Architecture
-+----------------------------+
-| Python AI Module |
-| (OpenCV + NumPy) |
-| → Computes brightness ∈ [0,1]
-+-------------┬--------------+
-│ (stdout pipe)
-+-------------▼--------------+
-| C Simulation Core |
-| - Quantum state evolution |
-| - Rabi dynamics (X, Y) |
-| - Measurement logic |
-| - OpenGL Bloch rendering |
-+----------------------------+
 
+Python AI Module(OpenCV + NumPy) → Computes brightness ∈ [0,1] → (stdout pipe) → C Simulation Core → Quantum state evolution → Rabi dynamics (X, Y) → Measurement logic → OpenGL Bloch rendering
 
 ---
 
@@ -38,8 +26,8 @@ Each qubit state is represented as
 \]
 
 The simulator applies discrete-time Rabi rotations on both the X- and Y-axes of the Bloch sphere.  
-The rotation amplitudes are scaled by the AI-derived brightness value, effectively treating environmental illumination as a dynamic drive field.  
-State evolution, normalization, and measurement collapse are handled within the C core.
+The rotation amplitudes are scaled by the AI-derived brightness value, effectively treating environmental illumination as a dynamic drive field. 
+State evolution, and normalization are handled within the C core.
 
 ---
 
@@ -53,7 +41,7 @@ State evolution, normalization, and measurement collapse are handled within the 
 ---
 
 ## 🛠️ Requirements
-*Must be compiled on MSYS MINGW64*
+*Must be compiled on MSYS MINGW64, due to freeglut libraries. If you have them on windows, just run the .exe file that's in the source code folder.*
 **Python side**
 ```bash
 pip install opencv-python numpy Pillow
@@ -81,8 +69,6 @@ gcc main.c rabi.c qubit.c bloch.c -o QubitSim -lfreeglut -lopengl32 -lglu32 -lws
 1. Implement explicit measurement-collapse dynamics
 
 2. Extend to coupled-qubit entanglement
-
-3. Integrate adjustable Rabi and detuning parameters
 
 ##👥 Authors
 
