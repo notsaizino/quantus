@@ -21,11 +21,9 @@ Python AI Module(OpenCV + NumPy) → Computes brightness ∈ [0,1] → (stdout p
 ## ⚛️ Simulation Model
 Each qubit state is represented as  
 
-\[
-|\psi\rangle = \alpha |0\rangle + \beta |1\rangle,\qquad |\alpha|^2 + |\beta|^2 = 1
-\]
+**|ψ⟩ = α|0⟩ + β|1⟩,   |α|² + |β|² = 1**
 
-The simulator applies discrete-time Rabi rotations on both the X- and Y-axes of the Bloch sphere.  
+The simulator applies discrete-time Rabi rotations on both the X- and Y-axes of the Bloch sphere.
 The rotation amplitudes are scaled by the AI-derived brightness value, effectively treating environmental illumination as a dynamic drive field. 
 State evolution, and normalization are handled within the C core.
 
