@@ -73,6 +73,9 @@ gcc main.c rabi.c qubit.c bloch.c -o QubitSim -lfreeglut -lopengl32 -lglu32 -lws
 [IDLE] g_pq=00000218eb966d40 measured=-1 POST alpha=0.131483117+0.131451818i beta=-0.922789830+0.337478207i t=60.240000
 [IDLE] g_pq2=00000218eb966d80 measured=-1 POST alpha=-0.210153985+-0.141833913i beta=-0.965591761+0.057887779i t=60.240000
 
+<img width="797" height="821" alt="image" src="https://github.com/user-attachments/assets/4c067ef6-056b-44db-a1ff-066614ff620f" />
+
+
 ##📚 Future Work
 
 1. Implement explicit measurement-collapse dynamics
