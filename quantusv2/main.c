@@ -1,15 +1,9 @@
 /**
  * main.c
  *
- * This is now an OpenGL/GLUT application. It creates a 3D window,
- * draws the Bloch sphere, and continuously updates the qubit state
- * based on the camera brightness.
- *
  * Compile (on Windows with MinGW/freeglut):
  * gcc main.c rabi.c qubit.c bloch.c -o QubitSim -lfreeglut -lopengl32 -lglu32 -lws2_32 -lwinmm
  *
- * (Note: You might need -lws2_32 and -lwinmm for the C standard library's
- * popen/pclose functions on some Windows C compilers)
  * * Controls:
  * - Click and drag mouse: Rotate the camera.
  */
@@ -19,7 +13,7 @@
 #include <string.h> // For strstr
 #include <complex.h>
 #include <math.h>
-
+#include <conio.h> // For _kbhit() and _getch()
 #include <windows.h> 
 #include <GL/glut.h>
 
@@ -190,13 +184,25 @@ void motion_func(int x, int y) {
         glutPostRedisplay(); // Request a redraw
     }
 }
-
+/**
+ * @brief Checks for user input to measure the qubit.
+ */
+void check_measurement_key(pqubit pq) {
+    if(_kbhit()) {  // Check if key pressed
+        char key = _getch();
+        if(key == 'm' || key == 'M') {
+            measure_qubit(pq);
+            printf("Qubit collapsed to %d!\n", pq->measured);
+        }
+    }
+}
 /**
  * @brief The idle function runs when no events are handled (main loop update).
  */
 void idle_func(void) {
     // 1. Get New Brightness (value between 0.1 and 0.9)
     double new_brightness_ratio = get_brightness_from_camera();
+    
     
     // 2. Update Rabi Drive
     rabi_set_brightness(&g_drive, new_brightness_ratio); // Use the 0-1 ratio directly
@@ -221,6 +227,9 @@ void idle_func(void) {
         fflush(stdout);
     // 4. Request Redraw
     glutPostRedisplay();
+    // 5. Check for Measurement Key Press
+    check_measurement_key(g_pq);
+    check_measurement_key(g_pq2);
 }
 
 

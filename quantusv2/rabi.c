@@ -22,7 +22,7 @@ double rabi_get_omega(const rabidrive *drive){
 }
 
 void rabi_step(rabidrive* drive, pqubit pq){
-    if(pq->measured != -1){
+    if(pq->measured != -1){ //if already collapsed, do nothing.
         return;
     }
     
@@ -33,24 +33,27 @@ void rabi_step(rabidrive* drive, pqubit pq){
     // Calculate rotation angle based on current omega and timestep
     double theta = drive->omega * drive->dt;
     
-    // Apply Rabi rotation matrix (pauli matrice):
-    // [ cos(θ/2)   -i·sin(θ/2) ]
-    // [ -i·sin(θ/2)   cos(θ/2) ]
-    
     double cos_theta_2 = cos(theta / 2.0);
     double sin_theta_2 = sin(theta / 2.0);
-    //apply the rotation matrix.
+    //apply the rotation matrixes.
     // X-axis Rabi rotation, following Pauli matrice:
     // [ cos(θ/2)   -i·sin(θ/2) ]
     // [ -i·sin(θ/2)   cos(θ/2) ]
-    double complex xrot = cos_theta_2*a0 - I * sin_theta_2*b0;
-    double complex yrot  = -I * sin_theta_2*a0 + cos_theta_2*b0;
+    double complex tempalphax = cos_theta_2*a0 - I * sin_theta_2*b0;
+    double complex tempbetax  = -I * sin_theta_2*a0 + cos_theta_2*b0;
     // Y-axis Rabi rotation, following Pauli matrice:
-    //[cos(θ/2)    sin(θ/2)] * [xrot]
-    //[​−sin(θ/2)   cos(θ/2)​]   [yrot]
-    //the above is the matrix multiplication representing a XY axis Rabi rotation.
-    pq->alpha = xrot* cos_theta_2 - yrot*sin_theta_2;
-    pq->beta = xrot * sin_theta_2 + yrot*cos_theta_2;
+    //[cos(θ/2)    sin(θ/2)] * [tempalpha]
+    //[​−sin(θ/2)   cos(θ/2)​]   [tempbeta]
+    
+    double complex tempalphay = tempalphax* cos_theta_2 - tempbetax*sin_theta_2;
+    double complex tempbetay = tempalphax * sin_theta_2 + tempbetax*cos_theta_2;
+    //Z-axis Rabi rotation, following Pauli matrice:
+    //[e^(−iθ/2)     0     ] * [tempalpha]
+    //[   0      e^(iθ/2) ]     [tempbeta]
+
+    pq->alpha = tempalphay * (cos_theta_2 - I*sin_theta_2);
+    pq->beta = tempbetay * (cos_theta_2 + I*sin_theta_2);
+
     // Ensure normalization (important for numerical stability.)
     double norm = sqrt(cabs(pq->alpha) * cabs(pq->alpha) + cabs(pq->beta) * cabs(pq->beta));
     if (norm > 0) {
