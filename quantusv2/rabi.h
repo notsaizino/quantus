@@ -11,6 +11,7 @@ typedef struct _rabidrive{
     double omega; //current rabi oscillator
     double t; //elapsed time
     double dt; //timestep.
+    double detuning;
 }rabidrive, *prabidrive;
 
 void rabi_init(rabidrive *drive, double max_freq, double dt); //initiates the rabi function.

@@ -187,15 +187,7 @@ void motion_func(int x, int y) {
 /**
  * @brief Checks for user input to measure the qubit.
  */
-void check_measurement_key(pqubit pq) {
-    if(_kbhit()) {  // Check if key pressed
-        char key = _getch();
-        if(key == 'm' || key == 'M') {
-            measure_qubit(pq);
-            printf("Qubit collapsed to %d!\n", pq->measured);
-        }
-    }
-}
+//TODO
 /**
  * @brief The idle function runs when no events are handled (main loop update).
  */
@@ -228,8 +220,8 @@ void idle_func(void) {
     // 4. Request Redraw
     glutPostRedisplay();
     // 5. Check for Measurement Key Press
-    check_measurement_key(g_pq);
-    check_measurement_key(g_pq2);
+   // check_measurement_key(g_pq);
+   // check_measurement_key(g_pq2);
 }
 
 
