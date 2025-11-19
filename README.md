@@ -14,7 +14,7 @@ This approach links real-world optical input to simulated quantum behavior, prod
 
 ## 🧩 System Architecture
 
-Python AI Module(OpenCV + NumPy) → Computes brightness ∈ [0,1] → (stdout pipe) → C Simulation Core → Quantum state evolution → Rabi dynamics (X, Y) → Measurement logic → OpenGL Bloch rendering
+Python AI Module(OpenCV + NumPy) → Computes brightness ∈ [0,1] → (stdout pipe) → C Simulation Core → Quantum state evolution → Rabi dynamics (X, Y, Z) → Measurement logic → Adds Detuning(Randomness)  → OpenGL Bloch rendering
 
 ---
 
@@ -23,7 +23,7 @@ Each qubit state is represented as
 
 **|ψ⟩ = α|0⟩ + β|1⟩,   |α|² + |β|² = 1**
 
-The simulator applies discrete-time Rabi rotations on both the X- and Y-axes of the Bloch sphere.
+The simulator applies discrete-time Rabi rotations on both the X-, Y- and Z- axes of the Bloch sphere.
 The rotation amplitudes are scaled by the AI-derived brightness value, effectively treating environmental illumination as a dynamic drive field. 
 State evolution, and normalization are handled within the C core.
 
@@ -64,9 +64,11 @@ gcc main.c rabi.c qubit.c bloch.c -o QubitSim -lfreeglut -lopengl32 -lglu32 -lws
 
 ##📚 Future Work
 
-1. Implement explicit measurement-collapse dynamics
+1. Add decoherence. 
 
-2. Extend to coupled-qubit entanglement
+2. Implement explicit measurement-collapse dynamics
+
+3. Extend to coupled-qubit entanglement
 
 ##👥 Authors
 
