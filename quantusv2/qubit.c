@@ -9,6 +9,9 @@ void qubit_init(pqubit pq, int index){
     pq-> measured = -1;
     pq->partner = -1;
     pq->index = index;
+    double norm = sqrt(cabs(pq->alpha)*cabs(pq->alpha) + cabs(pq->beta)*cabs(pq->beta));
+    pq->alpha /= norm;
+    pq->beta /= norm;
 }
 
 void qubit_measure(pqubit pq){

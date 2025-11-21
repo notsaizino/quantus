@@ -240,8 +240,8 @@ int main(int argc, char **argv) {
     //this is necessary so that both pq2 and pq are not the same lol. unfortunate, but that's how it works !
     qubit_init(g_pq2, index_qbit);
     index_qbit++;
-    g_pq2->alpha = 0.3312 + 0.111*I;
-    g_pq2->beta = 0.992 -0.852*I;
+    g_pq2->alpha = 0.2447 + 0.0820 * I; //normalized
+    g_pq2->beta  = -0.7330 - 0.6295 * I; //normalized
 
 
     // Initialize Rabi drive
